@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incredible India | Hidden Trails</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+    :root { --ink:#2d2118; --saffron:#c85c26; --cream:#f5ead8; --sand:#e7c899; --jade:#506b58; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--cream); color:var(--ink); font-family:'DM Sans',sans-serif; }
+    .screen { min-height:100vh; } .hidden { display:none !important; }
+    #landing { position:relative; overflow:hidden; background:linear-gradient(115deg,#311b13 0%,#6b2c1d 46%,#bd6630 100%); color:#fff5df; }
+    .grain { position:absolute; inset:0; opacity:.15; background-image:radial-gradient(#fff 0.65px,transparent .8px); background-size:8px 8px; pointer-events:none; }
+    nav { height:90px; padding:21px 7vw; position:relative; z-index:2; display:flex; justify-content:space-between; align-items:center; }
+    .brand { display:flex; align-items:center; gap:11px; font-family:'Cormorant Garamond',serif; font-size:27px; line-height:.75; letter-spacing:.5px; }
+    .brand b { display:block; font-size:14px; text-transform:uppercase; letter-spacing:3px; font-family:'DM Sans',sans-serif; margin-bottom:5px; }.sun{width:32px;height:32px;border:2px solid #f4b656;border-radius:50%; position:relative}.sun:after{content:'';position:absolute;inset:7px;border:1px solid #f4b656;border-radius:50%}
+    .nav-note { font-size:11px; text-transform:uppercase; letter-spacing:2px; color:#ffd990; }
+    .hero { position:relative; z-index:1; min-height:calc(100vh - 90px); display:grid; grid-template-columns:1.03fr .97fr; align-items:center; padding:2vh 8vw 8vh; }
+    .eyebrow { color:#f5bd62; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:3px; }.hero h1 { max-width:640px; font:600 clamp(58px,8vw,116px)/.83 'Cormorant Garamond',serif; letter-spacing:-3px; margin:21px 0; }.hero p{max-width:440px; font-size:16px; line-height:1.7; color:#f2d6aa; }
+    .explore { cursor:pointer; border:0; background:#f2b85b; color:#3a2117; font-weight:600; margin-top:22px; padding:17px 25px; border-radius:1px; letter-spacing:.2px; transition:.2s; }.explore:hover { transform:translateY(-3px); background:#ffd479; }
+    .scene { min-height:580px; position:relative; }.sunset{position:absolute;width:310px;height:310px;border-radius:50%;right:3%;top:11%;background:radial-gradient(circle at 45% 45%,#ffd171,#e9893f 57%,#c95a29 58%);box-shadow:0 0 100px #f29448;}
+    .cave { position:absolute; bottom:-2%; right:-8%; width:min(680px,65vw); height:420px; border-radius:280px 280px 0 0; background:linear-gradient(90deg,#44251a 0 12%,transparent 12% 15%,#58311e 15% 31%,transparent 31% 34%,#3c2119 34% 55%,transparent 55% 58%,#512b1b 58% 77%,transparent 77% 80%,#3b2018 80%); box-shadow:inset 0 35px 50px #210f0b;}.cave:after{content:'';position:absolute;inset:65px 70px 0;border-radius:160px 160px 0 0;background:#21120e;opacity:.74}
+    .elephant{position:absolute;bottom:17%;left:7%;font-size:130px;filter:sepia(.4) drop-shadow(0 10px 5px #30150d);}.pot{position:absolute;bottom:8%;right:12%;width:82px;height:100px;border-radius:45% 45% 38% 38%;background:#d68a40;border:8px solid #efad5e;box-shadow:inset 12px 0 #a95127;transform:rotate(-7deg)}.pot:before{content:'';position:absolute;left:12px;top:-26px;width:42px;height:26px;border:8px solid #efad5e;border-bottom:0;border-radius:25px 25px 0 0}.lotus{position:absolute;top:20%;left:2%;font-size:90px;color:#f3bd5c;}
+    
+    #cities { padding:42px 7vw 70px; background:radial-gradient(circle at 90% 0,#f0d9b4,transparent 30%),var(--cream); }
+    .topline{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #d7b98d;padding-bottom:22px}
+    .back{background:none;border:0;color:var(--saffron);font-weight:600;cursor:pointer}
+    .heading{text-align:center;margin:40px auto 22px}
+    .heading span{color:var(--saffron);font-size:11px;text-transform:uppercase;letter-spacing:3px}
+    .heading h2{font:600 clamp(42px,5vw,67px)/.9 'Cormorant Garamond',serif;margin:12px 0}
+    .search-wrap{max-width:720px;margin:0 auto 36px;position:relative}
+    .search-wrap input{width:100%;border:1px solid #c79f6a;background:#fffaf0;padding:18px 24px;border-radius:2px;font:15px 'DM Sans';outline:none;box-sizing:border-box}
+    .search-wrap input:focus{border-color:var(--saffron);box-shadow:0 0 0 3px #c85c2620}
+    
+    .card-discovering{background:#fff8ec;border:1px dashed #c85c26;min-height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;animation:pulseCard 1.5s infinite ease-in-out}
+    @keyframes pulseCard{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.02)}}
+    .discovering-spinner{width:38px;height:38px;border:3px solid #e7c899;border-top-color:#c85c26;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:14px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}
+    .card{cursor:pointer;background:#fff8ec;box-shadow:0 8px 20px #4f2c1714;transition:.25s;overflow:hidden}
+    .card:hover{transform:translateY(-7px);box-shadow:0 17px 28px #4f2c1728}
+    .card img{display:block;width:100%;height:220px;object-fit:cover;filter:saturate(.82) contrast(1.04)}
+    .card-info{padding:15px 16px 18px}
+    .card-info small{color:#9d5c32;text-transform:uppercase;letter-spacing:1.3px;font-size:9px}
+    .card-info h3{font:600 29px 'Cormorant Garamond',serif;margin:5px 0 0}
+    
+    /* Enriched Spot Detail Page */
+    #spot { min-height:100vh; padding:45px 8vw 90px; color:#fff7e7; background:linear-gradient(120deg,#1c332b,#0f2426); }
+    .spot-panel{max-width:850px;margin:5vh auto;text-align:center}
+    .spot-header{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
+    .spot-badge{background:#c85c26;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:2px;padding:4px 12px;border-radius:20px;font-weight:600}
+    .spot-header small{letter-spacing:3px;text-transform:uppercase;color:#ffd990;font-size:12px}
+    .spot-panel h2{font:600 clamp(48px,7vw,88px)/.9 'Cormorant Garamond',serif;margin:12px 0 4px}
+    .spot-monument{font:500 24px 'Cormorant Garamond',serif;color:#ffd990;margin:0 0 25px;letter-spacing:1px}
+    .spot-back{color:#ffd27b;border-color:#ffd27b;margin-bottom:20px}
+    
+    .spot-hero-img-wrap{width:100%;max-height:380px;overflow:hidden;border-radius:4px;margin-bottom:30px;box-shadow:0 16px 36px #00000050;border:1px solid #d6b46540}
+    .spot-hero-img-wrap img{width:100%;height:380px;object-fit:cover;display:block;filter:contrast(1.05)}
+    
+    .trail-card{background:#ffffff0e;border:1px solid #d6b46560;border-radius:4px;padding:26px 32px;margin-bottom:26px;text-align:left}
+    .trail-card h4{margin:0 0 10px;color:#ffd27b;font-size:12px;text-transform:uppercase;letter-spacing:2.5px;font-family:'DM Sans',sans-serif}
+    .trail-card p{font-size:16px;line-height:1.8;color:#fdf5e6;margin:0}
+    
+    .travel-info-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;margin-bottom:26px;text-align:left}
+    .info-box{background:#00000030;border:1px solid #eab85d35;padding:18px 20px;border-radius:4px}
+    .info-box b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#ffd27b;margin-bottom:8px;font-family:'DM Sans',sans-serif}
+    .info-box span{font-size:13px;line-height:1.5;color:#f0ebd9;display:block}
+    
+    .must-visit-box{background:#ffffff0e;border:1px solid #d6b46550;padding:22px 24px;border-radius:4px;margin-bottom:30px;text-align:left}
+    .must-visit-title{display:flex;align-items:center;gap:8px;margin-bottom:16px;color:#ffd27b;font-size:12px;text-transform:uppercase;letter-spacing:2px;font-family:'DM Sans',sans-serif;font-weight:600}
+    .must-visit-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:14px}
+    .must-visit-card{background:#00000035;border:1px solid #d6b46535;padding:16px 18px;border-radius:3px;display:flex;flex-direction:column;gap:6px;transition:.2s}
+    .must-visit-card:hover{border-color:#ffd27b;transform:translateY(-2px)}
+    .must-visit-num{color:#c85c26;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+    .must-visit-text{color:#fff5df;font-size:14px;line-height:1.5;font-weight:500;margin:0}
+    @media(max-width:720px){.must-visit-grid{grid-template-columns:1fr}}
+    
+    .spot-actions{display:flex;justify-content:center;gap:18px;margin:28px 0 40px}
+    .action-btn{padding:14px 26px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;text-decoration:none;cursor:pointer;border-radius:2px;transition:.2s;display:inline-flex;align-items:center;gap:8px;border:0}
+    .map-btn{background:#f2b85b;color:#2d2118}
+    .map-btn:hover{background:#ffd479;transform:translateY(-2px)}
+    .wishlist-btn{background:transparent;color:#ffd990;border:1px solid #ffd990}
+    .wishlist-btn:hover{background:#ffd99020;transform:translateY(-2px)}
+    .wishlist-btn.saved{background:#c85c26;color:#fff;border-color:#c85c26}
+
+    /* IIIT-Delhi Easter Egg */
+    .iiit-gallery{display:none;grid-template-columns:repeat(3,1fr);gap:10px;margin:30px auto;max-width:760px}.iiit-gallery.show{display:grid}.iiit-gallery img{width:100%;height:160px;object-fit:cover;border:1px solid #dbb96d}.iiit-copy{display:none;margin:26px auto;color:#ffe2a5;max-width:690px;font:600 22px/1.3 'Cormorant Garamond',serif}.iiit-copy.show{display:block}.placement-stats{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px auto;max-width:760px}.placement-stats.show{display:grid}.stat{padding:18px 8px;border:1px solid #d6b465;background:#fff7e80c}.stat b{display:block;color:#ffd477;font:600 27px 'Cormorant Garamond',serif}.stat span{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#e5d5ad}.stat-source{display:none;color:#e8d49c;font-size:11px}.stat-source.show{display:block}.stat-source a{color:#ffd477}
+    
+
+    @media(max-width:720px){
+      .nav-note{display:none}.hero{grid-template-columns:1fr;padding-top:7vh}.scene{min-height:360px}.hero h1{font-size:65px}.sunset{width:220px;height:220px}.cave{height:250px;width:110%;right:-15%}.elephant{font-size:85px}.pot{transform:scale(.7);right:4%;bottom:0}.grid{grid-template-columns:repeat(2,1fr)}.card img{height:150px}
+      .travel-info-grid{grid-template-columns:1fr}.spot-hero-img-wrap, .spot-hero-img-wrap img{height:220px}.spot-actions{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <section id="landing" class="screen">
+    <div class="grain"></div>
+    <nav>
+      <div class="brand"><i class="sun"></i><div><b>Incredible</b>India</div></div>
+      <div class="nav-note">A journey through timeless lands</div>
+    </nav>
+    <main class="hero">
+      <div>
+        <div class="eyebrow">भारत · discover the extraordinary</div>
+        <h1>Stories carved in stone.</h1>
+        <p>Walk through ancient caves, sacred cities and secret landscapes. India is not a destination—it is a thousand journeys waiting to begin.</p>
+        <button class="explore" id="startExploring">Start Exploring&nbsp; →</button>
+      </div>
+      <div class="scene" aria-hidden="true">
+        <div class="sunset"></div>
+        <div class="lotus">✦</div>
+        <div class="elephant">♜</div>
+        <div class="pot"></div>
+        <div class="cave"></div>
+      </div>
+    </main>
+  </section>
+
+  <section id="cities" class="screen hidden">
+    <div class="topline">
+      <div class="brand" style="color:#362319"><i class="sun" style="border-color:#c85c26"></i><div><b style="color:#c85c26">Incredible</b>India</div></div>
+      <button class="back" id="homeButton">← Home</button>
+    </div>
+    <div class="heading">
+      <span>Choose your next story</span>
+      <h2>Select your destination</h2>
+    </div>
+    <div class="search-wrap">
+      <input id="citySearch" type="search" placeholder="Type any place in India to explore (e.g. Manali, Ooty, Hampi, Kerala)..." aria-label="Search cities" />
+    </div>
+    <div class="grid" id="cityGrid"></div>
+  </section>
+
+  <section id="spot" class="screen hidden">
+    <button class="back spot-back" id="citiesButton">← All destinations</button>
+    <div class="spot-panel">
+      
+      <!-- Badges & City Title -->
+      <div class="spot-header">
+        <span class="spot-badge" id="spotCategory">Heritage</span>
+        <small id="spotState"></small>
+      </div>
+      <h2 id="spotCity"></h2>
+      <h3 id="spotMonument" class="spot-monument"></h3>
+
+      <!-- Hero Destination Photo -->
+      <div class="spot-hero-img-wrap">
+        <img id="spotHeroImage" src="" alt="Monument banner" />
+      </div>
+
+      <!-- The Hidden Trail Narrative -->
+      <div class="trail-card">
+        <h4>✦ The Hidden Trail & Secret Story</h4>
+        <p id="spotText"></p>
+      </div>
+
+      <!-- Essential Travel Quick Info Grid -->
+      <div class="travel-info-grid">
+        <div class="info-box">
+          <b>🕒 Best Season</b>
+          <span id="spotBestTime"></span>
+        </div>
+        <div class="info-box">
+          <b>🎟️ Timings & Entry</b>
+          <span id="spotTimings"></span>
+        </div>
+        <div class="info-box">
+          <b>✈️ How to Reach</b>
+          <span id="spotTransit"></span>
+        </div>
+      </div>
+
+      <!-- Top 3 Must Visit Places -->
+      <div class="must-visit-box">
+        <div class="must-visit-title">
+          <span>⭐</span>
+          <b>TOP 3 MUST-VISIT PLACES</b>
+        </div>
+        <div class="must-visit-grid" id="spotMustVisit">
+          <!-- 3 Must-visit cards generated dynamically -->
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="spot-actions">
+        <a id="mapsLink" href="#" target="_blank" rel="noopener" class="action-btn map-btn">📍 Open in Google Maps ↗</a>
+        <button id="wishlistBtn" class="action-btn wishlist-btn">🤍 Save to Wishlist</button>
+      </div>
+
+      <!-- IIIT-Delhi Campus Showcase (Displays when Delhi is clicked) -->
+      <div class="iiit-gallery" id="iiitGallery">
+        <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=473757908125545" alt="IIIT-Delhi ECE Labs">
+        <img src="https://ia.iiitd.ac.in/assets/images/facilities/2.JPG" alt="IIIT-Delhi facility">
+        <img src="https://iiitd.ac.in/admissions/btech/2025/assets/img/portfolio/portfolio-4.jpg" alt="IIIT-Delhi campus">
+      </div>
+      <div class="iiit-copy" id="iiitCopy">
+        IIIT-Delhi is where ambition is sharpened into impact. It is a fearless, research-led community of builders, thinkers and problem-solvers—creating technology with the confidence to take on India’s biggest challenges and the imagination to lead globally.
+      </div>
+      <div class="placement-stats" id="placementStats">
+        <div class="stat"><b>72.30 LPA</b><span>Highest Indian CTC</span></div>
+        <div class="stat"><b>₹19.42 LPA</b><span>Overall Average</span></div>
+        <div class="stat"><b>91.42%</b><span>Campus Placement</span></div>
+        <div class="stat"><b>200</b><span>Companies visited</span></div>
+      </div>
+      <div class="stat-source" id="statSource">
+        Placement figures: Batch graduating 2026, updated 23 June 2026 · <a href="https://www.iiitd.ac.in/placement/stats" target="_blank" rel="noopener">Official IIIT-Delhi placement statistics ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="sih2.js"></script>
+  <script src="sih3.js"></script>
+</body>
+</html>
