@@ -17,15 +17,6 @@ DB_USER = os.environ.get('DB_USER', '32Dy7US6LhUVFag.root')
 DB_PASS = os.environ.get('DB_PASS', '74OaLE6s5DRpimPC')
 DB_NAME = os.environ.get('DB_NAME', 'test')
 
-INDIAN_STATES = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 
-    'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 
-    'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 
-    'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 
-    'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 
-    'Delhi', 'Jammu & Kashmir', 'Ladakh', 'Chandigarh', 'Puducherry', 'Andaman and Nicobar'
-]
-
 # Verified city-to-state overrides prevent ambiguous summaries from assigning the wrong state.
 CITY_STATE_OVERRIDES = {
     'panipat': 'Haryana',
@@ -180,9 +171,8 @@ def discover_location():
         clean_city = re.sub(r'\(.*?\)', '', city_name).split(',')[0].strip()
 
         extract = wiki_data.get('extract', f"Explore the peaceful trails, ancient culture and timeless beauty of {clean_city}.")
-        detected_state = CITY_STATE_OVERRIDES.get(clean_city.lower())
-        if not detected_state:
-            detected_state = next((s for s in INDIAN_STATES if s.lower() in extract.lower()), 'India')
+        # Only use verified city-state data. Description text can mention unrelated states.
+        detected_state = CITY_STATE_OVERRIDES.get(clean_city.lower(), 'India')
 
         # High-res photo
         img_url = wiki_data.get('originalimage', {}).get('source')
