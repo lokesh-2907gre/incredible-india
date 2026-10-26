@@ -26,6 +26,11 @@ INDIAN_STATES = [
     'Delhi', 'Jammu & Kashmir', 'Ladakh', 'Chandigarh', 'Puducherry', 'Andaman and Nicobar'
 ]
 
+# Verified city-to-state overrides prevent ambiguous summaries from assigning the wrong state.
+CITY_STATE_OVERRIDES = {
+    'panipat': 'Haryana',
+}
+
 MUST_VISIT_PRESETS = {
     'Agra': 'Taj Mahal (Sunrise vantage) | Agra Fort & Royal Palaces | Mehtab Bagh Sunset Gardens',
     'Varanasi': 'Kashi Vishwanath Corridor | Dashashwamedh Ghat Evening Aarti | Sarnath Deer Park & Stupa',
@@ -103,6 +108,10 @@ def get_cities():
             ORDER BY id ASC
         """)
         data = cursor.fetchall()
+        for destination in data:
+            known_state = CITY_STATE_OVERRIDES.get(destination['city'].strip().lower())
+            if known_state:
+                destination['state'] = known_state
         cursor.close()
         conn.close()
         return jsonify(data)
@@ -135,11 +144,17 @@ def discover_location():
             must_visit AS mustVisit, category
         FROM destinations
         WHERE LOWER(city) = %s OR LOWER(city) LIKE %s OR LOWER(monument) LIKE %s
+        ORDER BY CASE WHEN LOWER(city) = %s THEN 0 ELSE 1 END,
+                 CASE WHEN LOWER(city) LIKE %s THEN 0 ELSE 1 END
         LIMIT 1
-    """, (raw_query.lower(), f"%{raw_query.lower()}%", f"%{raw_query.lower()}%"))
+    """, (raw_query.lower(), f"%{raw_query.lower()}%", f"%{raw_query.lower()}%",
+          raw_query.lower(), f"{raw_query.lower()}%"))
     
     existing = cursor.fetchone()
     if existing:
+        known_state = CITY_STATE_OVERRIDES.get(existing['city'].strip().lower())
+        if known_state:
+            existing['state'] = known_state
         cursor.close()
         conn.close()
         return jsonify({"destination": existing, "from_db": True})
@@ -165,7 +180,9 @@ def discover_location():
         clean_city = re.sub(r'\(.*?\)', '', city_name).split(',')[0].strip()
 
         extract = wiki_data.get('extract', f"Explore the peaceful trails, ancient culture and timeless beauty of {clean_city}.")
-        detected_state = next((s for s in INDIAN_STATES if s.lower() in extract.lower()), 'India')
+        detected_state = CITY_STATE_OVERRIDES.get(clean_city.lower())
+        if not detected_state:
+            detected_state = next((s for s in INDIAN_STATES if s.lower() in extract.lower()), 'India')
 
         # High-res photo
         img_url = wiki_data.get('originalimage', {}).get('source')
